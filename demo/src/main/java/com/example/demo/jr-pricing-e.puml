@@ -1,0 +1,48 @@
+@startuml
+
+package domain{
+ class date{
+  - value : int
+ }
+
+ package surcharge{
+  package seat{
+   Enum SeatType{}
+  }
+  package superexpress{
+   Enum ShinkansenType{}
+  }
+ }
+
+ Enum Destination{}
+
+ class RailWayDistance{
+  - value : int
+ }
+
+ package fare{
+  Enum BasicFare{}
+ }
+
+ Destination o--> RailWayDistance
+ Destination o--> BasicFare
+
+ class PassengerNumber{
+  - adultPassengerNumber
+  - childPassengerNumber
+ }
+
+ class Number{
+  - value : int
+ }
+
+ PassengerNumber o--> Number
+
+ package discount{
+  Enum DiscountType{}
+ }
+
+ Enum OneWayOrRoundTrip{}
+}
+
+@enduml

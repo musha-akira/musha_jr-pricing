@@ -1,0 +1,58 @@
+@startuml
+
+package discount{
+ Enum DiscountType{
+  RoundTrip
+  Group
+  Non
+
+  + abstract createDiscount(order:DiscountOrder): Discount
+ }
+
+ class DiscountOrder{
+  - passengerNumber
+  - date
+  - destination
+  - oneWayOrRoundTrip
+ }
+
+ interface Discount{
+  + getDiscountRate() : DiscountRate
+  + getCalculatePassengerNumber() : PassengerNumber
+ }
+
+ class GroupDiscount implements Discount{
+  - PassengerNumber
+  - Date
+  - Destination
+
+  + getDiscountRate()
+  + getCalculatePassengerNumber()
+ }
+
+ class RoundTripDiscount implements Discount{
+  - PassengerNumber
+  - Destination
+  - oneWayOrRoundTrip
+
+  + getDiscountRate()
+  + getCalculateNumber()
+ }
+
+ class NonDiscount implements Discount{
+  - PassengerNumber
+  - Destination
+
+  + getDiscountRate()
+  + getCalculatePassengerNumber()
+ }
+
+ class DiscountRate{
+    - value : int
+ }
+
+}
+
+DiscountType o--> Discount
+
+@enduml
