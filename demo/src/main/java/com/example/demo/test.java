@@ -1,13 +1,13 @@
 package com.example.demo;
 
-import com.example.demo.domain.Date;
-import com.example.demo.domain.Destination;
-import com.example.demo.domain.Number;
-import com.example.demo.domain.OneWayOrRoundTrip;
-import com.example.demo.domain.surcharge.seat.SeatType;
-import com.example.demo.domain.surcharge.superexpress.ShinkansenType;
-import com.example.demo.domain.discount.DiscountType;
-import com.example.demo.service.ShinkansenFareCalculationService;
+import com.example.demo.component.service.ShinkansenFareCalculationService;
+import com.example.demo.component.domain.Date;
+import com.example.demo.component.domain.Destination;
+import com.example.demo.component.domain.Number;
+import com.example.demo.component.domain.OneWayOrRoundTrip;
+import com.example.demo.component.domain.discount.DiscountType;
+import com.example.demo.component.domain.surcharge.seat.SeatType;
+import com.example.demo.component.domain.surcharge.superexpress.ShinkansenType;
 
 public class test {
     public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class test {
         ShinkansenFareCalculationService service = new ShinkansenFareCalculationService();
 
         System.out.println(
-                service.ShinkansenFareCalculate(
+                service.shinkansenFareCalculate(
                         date,
                         seatType,
                         destination,
@@ -37,6 +37,43 @@ public class test {
                         oneWayOrRoundTrip
 
                 ).getValue());
+
+
+        System.out.println(Integer.MAX_VALUE);
+
+//        System.out.println(new ShinkansenFareRequest.AdultPassengerNumberForm(new Number(1)).getAdultPassengerNumber().getNumber());
+//        ShinkansenFareRequest request = new ShinkansenFareRequest(
+//                new ShinkansenFareRequest.DateForm(date),
+//                new ShinkansenFareRequest.DestinationForm(destination),
+//                new ShinkansenFareRequest.SeatTypeForm(seatType),
+//                new ShinkansenFareRequest.AdultPassengerNumberForm(adultPassengerNumber),
+//                new ShinkansenFareRequest.ChildPassengerNumberForm(childPassengerNumber),
+//                new ShinkansenFareRequest.DiscountTypeForm(discountType),
+//                new ShinkansenFareRequest.ShinkansenTypeForm(shinkansenType),
+//                new ShinkansenFareRequest.OneWayOrRoundTripForm(oneWayOrRoundTrip)
+//        );
+//        System.out.println(request.getAdultPassengerNumber().getNumber());
+
+        //ShinkansenFareCalculationAPI api = new ShinkansenFareCalculationAPI();
+
+        //System.out.println(api.invoke(request));
+
+//        Map<String,Object> res = new HashMap();
+//        res.put("results",
+//                new ShinkansenFareCalculationService().shinkansenFareCalculate(
+//                        request.getDate(),
+//                        request.getSeatType(),
+//                        request.getDestination(),
+//                        request.getAdultPassengerNumber(),
+//                        request.getChildPassengerNumber(),
+//                        request.getDiscountType(),
+//                        request.getShinkansenType(),
+//                        request.getOneWayOrRoundTrip()
+//                ).getValue()
+//        );
+//
+//        System.out.println(res.toString());
+
 
 
     }
