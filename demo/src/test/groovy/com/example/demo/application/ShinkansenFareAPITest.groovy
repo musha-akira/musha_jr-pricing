@@ -19,16 +19,6 @@ class ShinkansenFareAPITest extends Specification {
         given:
         def target = new ShinkansenFareCalculationAPI()
         target.service = new ShinkansenFareCalculationService()
-//        target.request = new ShinkansenFareRequest(
-//                new ShinkansenFareRequest.DateForm(date),
-//                new ShinkansenFareRequest.DestinationForm(destination),
-//                new ShinkansenFareRequest.SeatTypeForm(seatType),
-//                new ShinkansenFareRequest.AdultPassengerNumberForm(adultPassengerNumber),
-//                new ShinkansenFareRequest.ChildPassengerNumberForm(childPassengerNumber),
-//                new ShinkansenFareRequest.DiscountTypeForm(discountType),
-//                new ShinkansenFareRequest.ShinkansenTypeForm(shinkansenType),
-//                new ShinkansenFareRequest.OneWayOrRoundTripForm(oneWayOrRoundTrip)
-//        )
         target.request = Mock(ShinkansenFareRequest)
         target.request.getDate() >> date
         target.request.getDestination() >> destination
