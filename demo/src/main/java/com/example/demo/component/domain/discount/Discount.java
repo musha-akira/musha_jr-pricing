@@ -4,6 +4,6 @@ import com.example.demo.component.domain.Number;
 
 public interface Discount {
     DiscountRate getDiscountRate();
-    Number getCalculateAdultNumber();
-    Number getCalculateChildNumber();
+    Number getFreePassengerExcludedAdultNumber();
+    Number getFreePassengerExcludedChildNumber();
 }

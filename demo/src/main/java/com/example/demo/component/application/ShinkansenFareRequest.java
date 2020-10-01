@@ -41,15 +41,12 @@ public class ShinkansenFareRequest {
 
         @Max(2100)
         @Min(1900)
-        @NotNull
         private int year;
         @Min(1)
         @Max(12)
-        @NotNull
         private int month;
         @Min(1)
         @Max(31)
-        @NotNull
         private int day;
     }
 
@@ -65,20 +62,21 @@ public class ShinkansenFareRequest {
     @Component
     public static class SeatTypeForm {
         @NotEmpty
+        @Size(min = 1, max = 10)
         private String seatType;
     }
 
     @Data
     @Component
     public static class AdultPassengerNumberForm {
-        @NotEmpty(message = "入力してください")
+        @Size(min = 0)
         private int adultPassengerNumber;
     }
 
     @Data
     @Component
     public static class ChildPassengerNumberForm {
-        @NotEmpty
+        @Size(min = 0)
         private int childPassengerNumber;
     }
 
@@ -86,6 +84,7 @@ public class ShinkansenFareRequest {
     @Component
     public static class DiscountTypeForm {
         @NotEmpty
+        @Size(min = 1, max = 10)
         private String discountType;
     }
 
@@ -93,6 +92,7 @@ public class ShinkansenFareRequest {
     @Component
     public static class ShinkansenTypeForm {
         @NotEmpty
+        @Size(min = 1, max = 10)
         private String shinkansenType;
     }
 
@@ -100,6 +100,7 @@ public class ShinkansenFareRequest {
     @Component
     public static class OneWayOrRoundTripForm {
         @NotEmpty
+        @Size(min = 1, max = 10)
         private String oneWayOrRoundTrip;
     }
 
@@ -135,17 +136,4 @@ public class ShinkansenFareRequest {
         return OneWayOrRoundTrip.valueOf(this.oneWayOrRoundTripForm.getOneWayOrRoundTrip());
     }
 
-//    public double calculation() {
-//        ShinkansenFareCalculationService service = new ShinkansenFareCalculationService();
-//        return service.shinkansenFareCalculate(
-//                getDate(),
-//                getSeatType(),
-//                getDestination(),
-//                getAdultPassengerNumber(),
-//                getChildPassengerNumber(),
-//                getDiscountType(),
-//                getShinkansenType(),
-//                getOneWayOrRoundTrip()
-//        ).getValue();
-//    }
 }

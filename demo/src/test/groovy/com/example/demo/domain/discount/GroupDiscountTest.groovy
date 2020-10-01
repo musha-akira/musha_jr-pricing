@@ -20,7 +20,7 @@ class GroupDiscountTest extends Specification {
         def groupDiscountRate = group.getDiscountRate().getValue()
 
         then:
-        groupDiscountRate == result
+        groupDiscountRate == result as double
 
         where:
         month | day || result
@@ -30,6 +30,29 @@ class GroupDiscountTest extends Specification {
         1     | 9   || 0.1
         1     | 10  || 0.1
         1     | 11  || 0.15
+    }
+
+    @Unroll
+    def "大人#adultNumber人で子供#childNumber人の時の往復割引が適用できるかどうかの判定結果#result"() {
+        given:
+        def group = new GroupDiscount(
+                new PassengerNumber(new Number(adultNumber), new Number(childNumber)),
+                new Date(2020, 8, 10),//日にち関係ない
+        )
+
+        when:
+        def canGroupDiscount = group.canGroupDiscount(new PassengerNumber(new Number(adultNumber), new Number(childNumber)))
+
+        then:
+        canGroupDiscount == result
+
+        where:
+        adultNumber | childNumber || result
+        0           | 8           || true
+        1           | 7           || true
+        7           | 1           || true
+        8           | 0           || true
+
     }
 
     @Unroll
@@ -55,28 +78,6 @@ class GroupDiscountTest extends Specification {
     }
 
     @Unroll
-    def "大人#adultNumber人で子供#childNumber人の時の計算大人人数#result"() {
-        given:
-        def group = new GroupDiscount(
-                new PassengerNumber(new Number(adultNumber), new Number(childNumber)),
-                new Date(2020, 8, 10),//日にち関係ない
-        )
-
-        when:
-        def calculateAdultNumber = group.getCalculateAdultNumber()
-
-        then:
-        calculateAdultNumber == new Number(result)
-
-        where:
-        adultNumber | childNumber || result
-        30          | 0           || 30
-        30          | 1           || 29
-        50          | 0           || 49
-        50          | 1           || 48
-    }
-
-    @Unroll
     def "大人#adultNumber人で子供#childNumber人の時の無賃扱人数#result"() {
         given:
         def group = new GroupDiscount(
@@ -95,10 +96,95 @@ class GroupDiscountTest extends Specification {
         30          | 1           || 1
         50          | 0           || 1
         50          | 1           || 2
+        101         | 0           || 3
     }
 
     @Unroll
-    def "大人#adultNumber人で子供#childNumber人の時の例外メッセージは#result"() {
+    def "大人#adultNumber人で子供#childNumber人の時の無賃扱人を除いた大人人数#result"() {
+        given:
+        def group = new GroupDiscount(
+                new PassengerNumber(new Number(adultNumber), new Number(childNumber)),
+                new Date(2020, 8, 10),//日にち関係ない
+        )
+
+        when:
+        def calculateAdultNumber = group.getFreePassengerExcludedAdultNumber()
+
+        then:
+        calculateAdultNumber == new Number(result)
+
+        where:
+        adultNumber | childNumber || result
+        0           | 31          || 0
+        50          | 1           || 48
+        1           | 50          || 0
+        30          | 0           || 30
+        30          | 1           || 29
+        50          | 0           || 49
+    }
+
+    @Unroll
+    def "大人0人で子供#childNumber人の時の無賃扱人を除いた大人人数が0になるかどうかの判定テスト"() {
+        given:
+        def group = new GroupDiscount(
+                new PassengerNumber(new Number(0), new Number(childNumber)),
+                new Date(2020, 8, 10),//日にち関係ない
+        )
+
+        when:
+        def calculateAdultNumber = group.getFreePassengerExcludedAdultNumber()
+
+        then:
+        calculateAdultNumber == new Number(result)
+
+        where:
+        adultNumber | childNumber || result
+        0           | 31          || 0
+        0           | 51          || 0
+    }
+
+    @Unroll
+    def "大人人数が無賃扱人以下の場合大人人数が0になるかどうかの判定テスト"() {
+        given:
+        def group = new GroupDiscount(
+                new PassengerNumber(new Number(adultNumber), new Number(childNumber)),
+                new Date(2020, 8, 10),//日にち関係ない
+        )
+
+        when:
+        def calculateAdultNumber = group.getFreePassengerExcludedAdultNumber()
+
+        then:
+        calculateAdultNumber == new Number(result)
+
+        where:
+        adultNumber | childNumber || result
+        1           | 30          || 0
+        1           | 51          || 0
+    }
+
+    @Unroll
+    def "大人人数が無賃扱人以下の場合大人が優先して無賃扱い人が除かれているかどうか確認テスト"() {
+        given:
+        def group = new GroupDiscount(
+                new PassengerNumber(new Number(adultNumber), new Number(childNumber)),
+                new Date(2020, 8, 10),//日にち関係ない
+        )
+
+        when:
+        def calculateChildNumber = group.getFreePassengerExcludedChildNumber()
+
+        then:
+        calculateChildNumber == new Number(result)
+
+        where:
+        adultNumber | childNumber || result
+        1           | 30          || 30
+        1           | 51          || 50
+    }
+
+    @Unroll
+    def "大人#adultNumber人で子供#childNumber人で合計8人に満たない場合の例外メッセージは#result"() {
         when:
         new GroupDiscount(
                 new PassengerNumber(new Number(adultNumber), new Number(childNumber)),

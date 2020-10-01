@@ -7,9 +7,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ReservedSeat implements Seat {
 
-    private final SuperExpress surcharge;
+    private final SuperExpress superExpress;
 
     public Yen getSeatSurcharge() {
-        return this.surcharge.getSuperExpressSurcharge();
+        return this.superExpress.getSuperExpressSurcharge();
     }
 }

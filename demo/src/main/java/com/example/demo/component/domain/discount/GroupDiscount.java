@@ -26,7 +26,7 @@ public class GroupDiscount implements Discount {
      */
     public GroupDiscount(PassengerNumber passengerNumber, Date date) {
 
-        if (passengerNumber.getTotalPassengerNumber().compare(MIN_GROUP_DISCOUNT_PASSENGER_NUMBER) < 0) {
+        if (!canGroupDiscount(passengerNumber)) {
             throw new RuntimeException("団体割引を適用できません。");
         }
 
@@ -47,6 +47,11 @@ public class GroupDiscount implements Discount {
         } else {
             this.freePassengerNumber = new PassengerNumber(new Number(0), new Number(0));
         }
+    }
+
+    //MIN_GROUP_DISCOUNT_PASSENGER_NUMBER 以上ならば団体割引が使える
+    public boolean canGroupDiscount(PassengerNumber passengerNumber) {
+        return passengerNumber.getTotalPassengerNumber().compare(MIN_GROUP_DISCOUNT_PASSENGER_NUMBER) >= 0;
     }
 
     //MIN_FREE_GROUP_DISCOUNT_PASSENGER_NUMBER 以上ならば無賃扱人割引が使える
@@ -88,13 +93,13 @@ public class GroupDiscount implements Discount {
     }
 
     @Override
-    public Number getCalculateAdultNumber() {
+    public Number getFreePassengerExcludedAdultNumber() {
         return this.passengerNumber.getAdultPassengerNumber()
                 .subtract(this.freePassengerNumber.getAdultPassengerNumber());
     }
 
     @Override
-    public Number getCalculateChildNumber() {
+    public Number getFreePassengerExcludedChildNumber() {
         return this.passengerNumber.getChildPassengerNumber()
                 .subtract(this.freePassengerNumber.getChildPassengerNumber());
     }

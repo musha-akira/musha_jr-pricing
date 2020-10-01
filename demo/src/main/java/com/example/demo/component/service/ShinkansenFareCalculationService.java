@@ -51,8 +51,8 @@ public class ShinkansenFareCalculationService {
                         oneWayOrRoundTrip
                 );
 
-        Number adultCalculatePassengerNumber = discount.getCalculateAdultNumber();
-        Number childCalculatePassengerNumber = discount.getCalculateChildNumber();
+        Number adultCalculatePassengerNumber = discount.getFreePassengerExcludedAdultNumber();
+        Number childCalculatePassengerNumber = discount.getFreePassengerExcludedChildNumber();
 
         return adultFare
                 .multiple(adultCalculatePassengerNumber)

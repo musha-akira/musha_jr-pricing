@@ -41,7 +41,55 @@ class ShinkansenFareRequestTest extends Specification {
 
         where:
         value || size
+        1899  || 1
         1900  || 0
+        2000  || 0
+        2100  || 0
+        2101  || 1
+
+    }
+
+    @Unroll
+    def "月#valueを設定した時のDateFormの違反項目数#size"() {
+        setup:
+        def validator = Validation.buildDefaultValidatorFactory().getValidator()
+        def dateForm = new ShinkansenFareRequest.DateForm()
+        dateForm.setYear(2000)
+        dateForm.setMonth(value)
+        dateForm.setDay(1)
+        Set<ConstraintViolation<ShinkansenFareRequest.DateForm>> constraintViolations = validator.validate(dateForm)
+
+        expect:
+        constraintViolations.size() == size
+
+        where:
+        value || size
+        0     || 1
+        1     || 0
+        12    || 0
+        13    || 1
+
+    }
+
+    @Unroll
+    def "日#valueを設定した時のDateFormの違反項目数#size"() {
+        setup:
+        def validator = Validation.buildDefaultValidatorFactory().getValidator()
+        def dateForm = new ShinkansenFareRequest.DateForm()
+        dateForm.setYear(2000)
+        dateForm.setMonth(1)
+        dateForm.setDay(value)
+        Set<ConstraintViolation<ShinkansenFareRequest.DateForm>> constraintViolations = validator.validate(dateForm)
+
+        expect:
+        constraintViolations.size() == size
+
+        where:
+        value || size
+        0     || 1
+        1     || 0
+        31    || 0
+        32    || 1
 
     }
 

@@ -58,12 +58,12 @@ public class RoundTripDiscount implements Discount {
     }
 
     @Override
-    public Number getCalculateAdultNumber() {
+    public Number getFreePassengerExcludedAdultNumber() {
         return this.passengerNumber.getAdultPassengerNumber();
     }
 
     @Override
-    public Number getCalculateChildNumber() {
+    public Number getFreePassengerExcludedChildNumber() {
         return this.passengerNumber.getChildPassengerNumber();
     }
 
