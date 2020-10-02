@@ -1,0 +1,48 @@
+@startuml
+
+package fare{
+ Enum FareType {
+  Adult
+  Child
+
+  + getBasicFare()
+  + getSurcharge()
+ }
+
+ FareType o--> Fare
+
+ interface Fare{
+  + getBasicFare(fare : BasicFare) : Yen
+  + getSurcharge(seat : Seat) : Yen
+ }
+
+ class ChildFare implements Fare{
+  + getBasicFare()
+  + getSurcharge()
+ }
+
+ class AdultFare implements Fare{
+  + getBasicFare()
+  + getSurcharge()
+ }
+
+ class Yen{
+  - value
+
+  + add()
+  + subtract()
+  + discount()
+  + multiple()
+  + roundDownLessThan10Yen()
+ }
+
+ Enum BasicFare{
+  ShinOsaka
+  Himeji
+ }
+
+ BasicFare o--> Yen
+
+}
+
+@enduml

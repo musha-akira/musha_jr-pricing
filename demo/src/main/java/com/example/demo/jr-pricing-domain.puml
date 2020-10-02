@@ -1,0 +1,208 @@
+@startuml
+
+package domain{
+
+ package fare{
+ Enum FareType {
+  Adult
+  Child
+
+  + getBasicFare()
+  + getSurcharge()
+ }
+
+ FareType o--> Fare
+
+ interface Fare{
+  + getBasicFare(fare : BasicFare) : Yen
+  + getSurcharge(seat : Seat) : Yen
+ }
+
+ class ChildFare implements Fare{
+  + getBasicFare()
+  + getSurcharge()
+ }
+
+ class AdultFare implements Fare{
+  + getBasicFare()
+  + getSurcharge()
+ }
+
+ class Yen{
+  - value
+
+  + add()
+  + subtract()
+  + discount()
+  + multiple()
+  + roundDownLessThan10Yen()
+ }
+
+ Enum BasicFare{
+  ShinOsaka
+  Himeji
+ }
+ }
+
+package discount{
+ Enum DiscountType{
+  RoundTrip
+  Group
+  Non
+
+  + abstract createDiscount(order:DiscountOrder): Discount
+ }
+
+ class DiscountOrder{
+ }
+
+ interface Discount{
+  + getDiscountRate() : DiscountRate
+  + getCalculatePassengerNumber() : PassengerNumber
+ }
+
+ class GroupDiscount implements Discount{
+  - PassengerNumber
+  - Date
+  - Destination
+
+  + getDiscountRate()
+  + getCalculatePassengerNumber()
+ }
+
+ class RoundTripDiscount implements Discount{
+  - PassengerNumber
+  - Date
+  - Destination
+
+  + getDiscountRate()
+  + getCalculatePassengerNumber()
+ }
+
+ class NonDiscount implements Discount{
+  - PassengerNumber
+  - Date
+  - Destination
+
+  + getDiscountRate()
+  + getCalculatePassengerNumber()
+ }
+
+ class DiscountRate{
+    - value : int
+ }
+
+}
+
+ DiscountType o--> Discount
+
+
+ DiscountOrder o--> PassengerNumber
+ DiscountOrder o--> Date
+ DiscountOrder o--> Destination
+ DiscountOrder o--> OneWayOrRoundTrip
+
+ PassengerNumber o--> Number
+
+
+  Enum Destination{
+    ShinOsaka
+    Himeji
+   }
+
+   class Date{
+    - year : int
+    - month : int
+    - day : int
+
+    + isNewYear() : boolean
+   }
+
+   class PassengerNumber{
+    - adultPassengerNumber : Number
+    - childPassengerNumber : Number
+   }
+
+   class Number{
+    - value : int
+
+    + add() : Number
+    + subtract() : Number
+    + divide() : Number
+    + compare() : int
+   }
+
+   Enum OneWayOrRoundTrip{
+    ONE_WAY
+    ROUND_TRIP
+   }
+
+   class RailWayDistance{
+    - value : int
+
+    + compare() : int
+   }
+
+   Destination o--> RailWayDistance
+
+
+package surcharge{
+
+ package seat{
+ Enum SeatType{
+  FreeSeat
+  ReservedSeat
+
+  + abstract createSeat(superExpress : SuperExpress) : Seat
+ }
+
+ SeatType o--> Seat
+
+ interface Seat{
+  + getSeatSurcharge()
+ }
+
+ class FreeSeat implements Seat{
+  - Hikari
+  + getSeatSurcharge() : Yen
+ }
+
+ class ReservedSeat implements Seat{
+  - SuperExpressSurcharge
+  + getSeatSurcharge() : Yen
+ }
+ }
+
+ package superexpress{
+ Enum ShinkansenType {
+   Hikari
+   Nozomi
+
+   + abstract createSuperExpressSurcharge(destination : Destination) : SuperExpressSurcharge
+  }
+
+  ShinkansenType o--> SuperExpress
+
+ interface SuperExpress{
+  + getSuperExpressSurcharge() : Yen
+ }
+
+ Enum Hikari implements SuperExpress{
+  ShinOsaka
+  Himeji
+  + getSuperExpressSurcharge() : Yen
+ }
+
+ Enum Nozomi implements SuperExpress{
+  ShinOsaka
+  Himeji
+  + getSuperExpressSurcharge() : Yen
+ }
+
+ ReservedSeat o--> SuperExpress
+ FreeSeat o--> Hikari
+ }
+}
+}
+
+@enduml

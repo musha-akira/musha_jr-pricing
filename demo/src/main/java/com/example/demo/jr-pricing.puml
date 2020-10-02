@@ -1,0 +1,35 @@
+@startuml
+
+package service{
+
+ class ShinkansenFareCalculationService {
+
+   + shinkansenFareCalculate() : Yen
+   + fareCalculateForOnePerson() :Yen
+
+ }
+
+}
+
+package API{
+ class ShinkansenFareCalculationAPI<<Controller>>{
+  - shinkansenFareCalculationService : ShinkansenFareCalculationService
+
+  + controller(request : ShinkansenFareCalculationRequest)
+
+ }
+
+ class ShinkansenFareCalculationRequest{
+  - date
+  - seatType
+  - destination
+  - adultPassengerNumber
+  - childPassengerNumber
+  - discountType
+  - shikansenType
+  - oneWayOrRoundTrip
+ }
+
+}
+
+@enduml

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>JR料金計算</title>
+</head>
+<body>
+<h1>JR 料金計算</h1>
+<form action="#" th:action="@{/jr-pricingInfo}" method="post">
+    <div>
+        <p>出発日を入力してください。</p>
+        <input name="DateForm.year" type="number" class="form-control"/>年
+        <input name="DateForm.month" type="number" class="form-control"/>月
+        <input name="DateForm.day" type="number" class="form-control"/>日
+
+        <p>目的地を選択してください。</p>
+        <input name="DestinationForm.destination" value="ShinOsaka" type="radio" class="btn btn-default"/>新大阪
+        <input name="DestinationForm.destination" value="Himeji" type="radio" class="btn btn-default"/>姫路
+
+        <p>席を選択してください。</p>
+        <input name="SeatTypeForm.seatType" value="FreeSeat" type="radio" class="btn btn-default"/>自由席
+        <input name="SeatTypeForm.seatType" value="ReservedSeat" type="radio" class="btn btn-default"/>指定席
+
+        <p>人数を入力してください。</p>
+        大人
+        <input name="AdultPassengerNumberForm.adultPassengerNumber" type="number" class="form-control"/>人
+        子供
+        <input name="ChildPassengerNumberForm.childPassengerNumber" type="number" class="form-control"/>人
+
+        <p>割引を選択してください。</p>
+        <input name="DiscountTypeForm.DiscountType" value="Non" type="radio" class="btn btn-default"/>なし
+        <input name="DiscountTypeForm.DiscountType" value="Group" type="radio" class="btn btn-default"/>団体
+        <input name="DiscountTypeForm.DiscountType" value="RoundTrip" type="radio" class="btn btn-default"/>往復
+
+        <p>新幹線を選択してください。</p>
+        <input name="ShinkansenTypeForm.ShinkansenType" value="Hikari" type="radio" class="btn btn-default"/>ひかり
+        <input name="ShinkansenTypeForm.ShinkansenType" value="Nozomi" type="radio" class="btn btn-default"/>のぞみ
+
+        <p>片道・往復を選択してください。</p>
+        <input name="OneWayOrRoundTripForm.oneWayOrRoundTrip" value="ONE_WAY" type="radio" class="btn btn-default"/>片道
+        <input name="OneWayOrRoundTripForm.oneWayOrRoundTrip" value="ROUND_TRIP" type="radio" class="btn btn-default"/>往復
+
+        <p></p>
+        <button type="submit" class="btn btn-default">計算</button>
+    </div>
+</form>
+</body>
+</html>
